@@ -1,0 +1,101 @@
+import pandas as pd
+import numpy as np
+df=pd.read_csv('Edu-Data.csv')
+
+
+df
+
+
+df=df.replace('?',np.NaN)
+df
+
+
+df.isnull().any()
+
+
+df.groupby('Topic').size()
+
+
+#Replacing with the most common value
+df['Topic'].replace(np.NaN,"IT", inplace = True)
+df.isnull().any()
+
+
+# Removing rows
+df.dropna(subset=['GradeID'],inplace=True)
+df.dropna(subset=['Relation'],inplace=True)
+df.isnull().any()
+
+
+#replacing with the mean value
+df['raisedhands'].replace(np.NaN,df['raisedhands'].astype("float").mean(),inplace=True)
+df.isnull().any()
+
+
+df['VisITedResources'].mean()
+
+
+#checking for outliers
+df['Semester'].value_counts()
+
+
+#removing 'T' (outlier)
+index = df[(df['Semester'] =='T')].index
+df.drop(index , inplace = True)
+df['Semester'].value_counts()
+
+
+df.drop("ParentAnsweringSurvey", axis='columns')
+
+
+# normalization
+df['raisedhands']=df['raisedhands'].astype({'raisedhands':'int64'})
+df['raisedhands']=df['raisedhands']/ df['raisedhands'].abs().max()
+df['VisITedResources']=df['VisITedResources']/ df['VisITedResources'].max()
+df[['raisedhands','VisITedResources']]
+
+
+df['raisedhands'].max()
+
+
+df['VisITedResources'].max()
+
+
+df['GradeID'].value_counts()
+
+
+#Transformation
+GradeID = {'G-02':1,'G-04': 2,'G-05':3,'G-06':4,'G-07': 5,'G-08':6,'G-09':7,'G-10':8,'G-11':9,'G-12':10, np.NaN:np.NaN}
+df.GradeID = [GradeID[item] for item in df.GradeID]
+df['GradeID'].value_counts()
+
+
+df['StudentAbsenceDays'].unique()
+
+
+StudentAbsenceDaysNew = {'Under-7': 0,'Above-7': 1}
+df.StudentAbsenceDays = [StudentAbsenceDaysNew[item] for item in df.StudentAbsenceDays]
+df['StudentAbsenceDays'].unique()
+
+
+df['GradeID'].value_counts()
+
+
+
+bins = np.linspace(min(df["GradeID"]), max(df["GradeID"]), 4)
+bins
+
+
+group_names = ['Low', 'Medium', 'High']
+df['GradeID-binned'] = pd.cut(df['GradeID'], bins, labels=group_names, include_lowest=True )
+df[['GradeID','GradeID-binned']].head(15)
+
+
+df['GradeID-binned'].value_counts()
+
+
+df.to_csv('EduData_updated.csv')
+
+
+df=pd.read_csv('EduData_updated.csv')
+df

@@ -1,0 +1,49 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pylab as plt
+
+
+new = pd.read_csv("online_store_customer_data.csv")
+new
+
+
+new.dtypes
+
+
+# group by Gender and calculate the mean, median, min, max, and standard deviation of Amount spent
+grouped_data = new.groupby("Gender")["Amount_spent"].agg(["mean", "median", "min", "max", "std"])
+
+# print the summary statistics for each Gender group
+grouped_data
+
+
+# group by Gender and calculate the mean, median, min, max, and standard deviation of Age
+grouped_data2 = new.groupby("Gender")["Age"].agg(["mean", "median", "min", "max", "std"])
+# print the summary statistics for each Gender group
+grouped_data2
+
+
+# group by Martial status and calculate the mean, median, min, max, and standard deviation of amount spend
+grouped_data3 = new.groupby("Marital_status")["Amount_spent"].agg(["mean", "median", "min", "max", "std"])
+# print the summary statistics for marital_status grp
+grouped_data3
+
+
+# group by Maritial status and calculate the mean, median, min, max, and standard deviation of age
+grouped_data4 = new.groupby("Marital_status")["Age"].agg(["mean", "median", "min", "max", "std"])
+# print the summary statistics for marital_status grp
+grouped_data4
+
+
+# group by state names and calculate the mean, median, min, max, and standard deviation of ampunt spend
+grouped_data5= new.groupby("State_names")["Amount_spent"].agg(["mean", "median", "min", "max", "std"])
+print("Summary statistics of amount spend on the group of states")
+# print the summary statistics for states
+grouped_data5
+
+
+print("Summary statistics of age on the group of states")
+# group by state names and calculate the mean, median, min, max, and standard deviation of age
+grouped_data6= new.groupby("State_names")["Age"].agg(["mean", "median", "min", "max", "std"])
+# print the summary statistics for states
+grouped_data6
